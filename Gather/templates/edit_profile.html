@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+      function filevalid()
+      {
+        var input = document.getElementById('my_img');
+        var path = input.value;
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+        if (!allowedExtensions.exec(path))
+        {
+          alert("Invalid file input");
+          input.value='';
+          return false;
+        }
+        else
+        return true;
+      }
+
+      function phonevalid()
+{ var inputtxt = document.getElementById('my_phone');
+  var phoneno = /^\+?([0-9]{2})\)?[-]?([0-9]{10})$/;
+  if(inputtxt.value.match(phoneno))
+        {
+      return true;
+        }
+      else
+        {
+          inputtxt.value='';
+        alert("invalid phone number");
+        return false;
+        }
+}
+      function datevalid()
+        {   var dob= new Date(document.getElementById("my_date").value);
+            var d = new Date();
+            var agedt = Date.now() - dob.getTime();
+            var agedt2 = new Date(agedt);
+            age= agedt2.getUTCFullYear() - 1970;
+            
+            if (dob.getTime() > d.getTime() )
+                 {alert("Invalid date of birth");
+                 document.getElementById("my_date").value='';}
+             else if(age < 18)
+            {alert("Age lesser than 18!");
+            document.getElementById("my_date").value='';}
+            
+            
+            //Date.now() returns the number of milliseconds since January 1, 1970.
+            // Notes. Date.now() is a static method of the Date object. 
+            //getTime() returns the number of milliseconds since January 1, 1970 00:00:00
+            //The getUTCFullYear() method returns the year in the specified date according to universal time. 
+
+        }
+    </script>
+</head>
+<body>
+    {% extends "dashboard.html" %}
+{%block main%}
+<form method="POST" action="/edit_profile/" enctype="multipart/form-data">
+    <h4>Edit Profile</h4>
+    {% csrf_token %} 
+    {% if my_profile__update %} 
+      {my_profile_update}
+    {% endif %}
+    <div class="form-group">
+      <label for="my_date">Date</label>
+      <input type="date" class="form-control" onchange="datevalid()" id="my_date" name="my_date">
+    </div>
+    <div class="form-group">
+      <label>Gender</label>
+      <div class="form-check form-check-inline">
+        <input type="radio" class="form-check-input" id="female" name="my_gender" value="female" checked>
+        <label class="form-check-label" for="female">Female</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input type="radio" class="form-check-input" id="male" name="my_gender" value="male">
+        <label class="form-check-label" for="male">Male</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input type="radio" class="form-check-input" id="others" name="my_gender" value="others">
+        <label class="form-check-label" for="others">Others</label>
+      </div>
+    </div>
+
+
+   <div class="container">
+        <div class="row">
+            <div class="col-11">
+              <select style="width:85%;"  class="select form-control-lg" id="my_clg" name="my_clg">
+                <option value="1" disabled>Choose Your college</option>
+                <option value="Christ University Central Campus" > CHRIST - Deemed to be University - Central Campus </option>
+  <option value="Maharanis Arts, Commerce and Management College for Women, Bangalore - 560 001.">Maharanis Arts, Commerce and Management College for Women</option>
+  <option value="Govt. Arts College, Dr. B R Ambedkar Veedhi, Bangalore - 560 001.">Govt. Arts College, Dr. B R Ambedkar Veedhi</option>
+  <option value="Govt. R.C.College of Commerce & Management, Bangalore - 560 001.">Govt. R.C.College of Commerce & Management</option>
+  <option value="Smt.V.H.D.Central Institute of Home Science College for Women, Bangalore - 560 001.">Smt.V.H.D.Central Institute of Home Science College for Women</option>
+  <option value="Nrupathunga University">Nrupathunga University</option>
+  <option value="Maharanis Science College for Women, Bangalore - 560 001.">Maharanis Science College for Women</option>
+  <option value="Dr.S.Gopalraju Govt. First Grade College, Anekal - 562106.">Dr.S.Gopalraju Govt. First Grade College</option>
+  <option value="Govt. First Grade College, Vijayanagar, Bangalore - 560 104">Govt. First Grade College, Vijayanagar</option>
+  <option value="Govt. First Grade College, K.R.Puram, Bangalore - 560 036.">Govt. First Grade College, K.R.Puram</option>
+  <option value="Lalbahadur Sastry Govt. Arts, Science and Commerce College, R.T.Nagar, Bangalore - 560 032.">Lalbahadur Sastry Govt. Arts, Science and Commerce College, R.T.Nagar</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5 mt-2">
+              <select class="select form-control-lg"  name="my_course" id="my_course">
+                <option value="1" disabled>Choose Your Course</option>
+                <option>L.L.B</option>
+                <option>M.C.A</option>
+                <option>B.C.A</option>
+                <option>M.B.A</option>
+            </select>
+         </div>
+        </div>
+    <div class="form-group">
+      <label for="my_phone" >Phone number</label>
+      <input type="tel"  class="form-control" onchange="return phonevalid()" id="my_phone" name="my_phone">
+    </div>
+    <div class="form-group">
+      <label for="my_img">Image</label>
+      <input type="file" class="form-control-file" onchange="return filevalid()" id="my_img" name="my_img">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+  {% endblock %}
+        </body>
+        </html>
