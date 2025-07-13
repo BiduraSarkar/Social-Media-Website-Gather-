@@ -95,7 +95,7 @@
         color: #555;"><b>Course:</b>{{j.course}}</p>
         <div class="buttons" style=" display: flex;
         justify-content: center;">
-            <form method=" POST" action="/rej_acc1/">
+            <form method="POST" action="/rej_acc1/">
                 {% csrf_token %}
                 <input type="text" value="{{j.email}}" name="reqfriend" style="display:none;">
                 <button class="btn" style=" padding: 8px 16px;
